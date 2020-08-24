@@ -1,63 +1,78 @@
 <template>
-  <div id="document">
-    <nav>
-      <h1>头部内容</h1>
-    </nav>
-    <main>
-      <p>可以添加更多内容看看底部的变化哦！</p>
+  <div class="home-warpper">
+    <header class="header">
+      <div>头部内容</div>
+    </header>
+    <main class="main">
+      <p v-for="item in data.list" :key="item.id">
+        <span>{{item.cname}}</span>
+        <span>{{item.age}}</span>
+        <span>{{item.name}}</span>
+      </p>
     </main>
-    <footer>
-      <h1>底部内容</h1>
+    <footer class="footer">
+      <div>底部内容</div>
     </footer>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Home'
-}
+  name: "Home",
+  data() {
+    return {
+      data: []
+    };
+  },
+  mounted() {
+    const Mock = require("mockjs");
+    this.data = Mock.mock({
+      "list|20": [
+        {
+          "id|+1": 1,
+          cname: "@cname",
+          name: "@name",
+          "age|20-28": 21
+        }
+      ]
+    });
+  }
+};
 </script>
 <style lang="scss">
-#document {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #202020;
-  font-family: microsoft yahei, wenquanyi micro hei, sans-serif !important;
-}
-
-nav,
-footer {
-  background: #494949;
-  /* display: flex; */
-  /* justify-content: center; */
-}
-
-main {
-  color: #bdbdbd;
-  flex: auto;
-}
-
-footer {
-  flex-shrink: 0;
-}
-
 * {
   margin: 0;
 }
-
-h1,
-p {
-  padding: 15px;
-}
-
-nav > h1 {
-  color: #82fcfd;
-  text-shadow: 1px 1px 4px #00000080;
-}
-
-footer > h1 {
-  color: #82fcfd;
-  text-shadow: 1px 1px 4px #00000080;
+.home-warpper {
+  padding-top: 80px;
+  background: #202020;
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  .header,
+  .footer {
+    height: 80px;
+    line-height: 80px;
+    background: #494949;
+    & > div {
+      font-size: 22px;
+      color: #82fcfd;
+      text-shadow: 1px 1px 4px #ccffff;
+    }
+  }
+  .main {
+    color: #bdbdbd;
+    flex: auto;
+    p {
+      padding: 15px;
+      span {
+        display: inline-block;
+        width: 200px;
+      }
+    }
+  }
 }
 </style>
