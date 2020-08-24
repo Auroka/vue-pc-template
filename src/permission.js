@@ -1,21 +1,17 @@
 import router from './router'
-import { getToken } from '@/utils/auth' // get token from cookie
+import { getToken } from '@/utils/cache' // get token from cookie
 
 const whiteList = ['/', '/login', '/about'] // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
+  const token = getToken()
 
-  // set page title
-  // document.title = getPageTitle(to.meta.title)
-
-  const hasToken = getToken()
-  console.log(hasToken);
-  if (hasToken) {
+  if (token) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
     } else {
-      next();
+      next()
     }
   } else {
     /* has no token*/
@@ -29,6 +25,4 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-router.afterEach(() => {
-
-})
+router.afterEach(() => {})
